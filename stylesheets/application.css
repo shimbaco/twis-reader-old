@@ -1,0 +1,40 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#loading {
+  margin: 300px 0;
+}
+
+#loading div {
+  width: 0;
+}
+
+ul#tweets li {
+  display: -webkit-box;
+  margin: 30px;
+}
+
+ul#tweets .profile-image {
+  width: 50px;
+  margin-right: 10px;
+}
+
+ul#tweets .profile-image img {
+  width: 50px;
+}
+
+ul#tweets .screen-name {
+  margin-right: 10px;
+}
+
+ul#tweets p {
+  margin: 10px 0;
+}

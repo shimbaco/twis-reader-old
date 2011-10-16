@@ -1,0 +1,14 @@
+{
+	"name": "Twis Reader",
+	"version": "1.0",
+	"description": "A Simple Twitter Search Reader",
+  "browser_action": {
+    "default_icon": "/images/icon.png"
+  },
+  "background_page": "background.html",
+	"options_page": "options.html",
+  "permissions": [
+    "tabs",
+    "https://twitter.com/"
+  ]
+}

@@ -1,0 +1,13 @@
+ul#keywords span {
+  margin-right: 10px;
+}
+
+.mimic-links {
+  color: #0069D6;
+}
+
+.mimic-links:hover {
+  color: #00438A;
+  text-decoration: underline;
+  cursor: pointer;
+}
