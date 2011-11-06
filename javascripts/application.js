@@ -15,7 +15,7 @@
     }
 
     if (keywords.length === 0) {
-      callback(tweets);
+      callback(false, tweets);
     } else {
       $.ajax({
         url: 'https://twitter.com/phoenix_search.phoenix',
@@ -27,6 +27,9 @@
           });
           keywords.shift();
           Tweet.search(keywords, tweets, callback);
+        },
+        error: function () {
+          callback(true, []);
         }
       });
     }
@@ -47,30 +50,38 @@
     return filteredTweets;
   };
   
-  Tweet.append = function (tweet) {
-    $('ul#tweets').append(
-      '<li>' +
-        '<div class="profile-image">' +
-          '<img src="' + tweet.user.profile_image_url + '" height="48" width="48">' +
-        '</div>' +
-        '<div class="content">' +
-          '<div class="name">' +
-            '<span class="screen-name">' +
-              '<a href="https://twitter.com/#!/' + tweet.user.screen_name + '" target="_blank">' +
-                tweet.user.screen_name +
-              '</a>' +
-            '</span>' +
-            '<span class="name">' + tweet.user.name + '</span>' +
-          '</div>' +
-          '<p>' + tweet.text + '</p>' +
-          '<div class="info">' +
-            '<a href="https://twitter.com/#!/' + tweet.user.screen_name + '/status/' + tweet.id_str + '" target="_blank">' +
-              tweet.created_at +
-            '</a>' +
-          '</div>' +
-        '</div>' +
-      '</li>'
-    );
+  Tweet.append = function (obj) {
+    var tweetsElm = $('ul#tweets');
+
+    if (typeof obj === 'string') { // if obj is error message
+      tweetsElm.append('<li>' + obj + '</li>');
+    } else {
+      $.each(obj, function (index, tweet) {
+        tweetsElm.append(
+          '<li>' +
+            '<div class="profile-image">' +
+              '<img src="' + tweet.user.profile_image_url + '" height="48" width="48">' +
+            '</div>' +
+            '<div class="content">' +
+              '<div class="name">' +
+                '<span class="screen-name">' +
+                  '<a href="https://twitter.com/#!/' + tweet.user.screen_name + '" target="_blank">' +
+                    tweet.user.screen_name +
+                  '</a>' +
+                '</span>' +
+                '<span class="name">' + tweet.user.name + '</span>' +
+              '</div>' +
+              '<p>' + tweet.text + '</p>' +
+              '<div class="info">' +
+                '<a href="https://twitter.com/#!/' + tweet.user.screen_name + '/status/' + tweet.id_str + '" target="_blank">' +
+                  tweet.created_at +
+                '</a>' +
+              '</div>' +
+            '</div>' +
+          '</li>'
+        );
+      });
+    }
   };
 
   Tweet.displayAll = function () {
@@ -88,20 +99,21 @@
     
     new Spinner(options).spin(document.getElementById('loading'));
 
-    Tweet.search(keywords, function (tweetsObj) {
-      var tweets = Tweet.filter(tweetsObj);
+    Tweet.search(keywords, function (err, tweetsObj) {
+      var tweets = Tweet.filter(tweetsObj)
+        , obj = null;
 
       $('#loading').remove();
-
-      if (tweets.length === 0) {
-        $('ul#tweets').append(
-          '<li>no unread tweets.</li>'
-        );
+      
+      if (err) {
+        obj = 'Some errors occurred while searching keywords'
+      } else if (tweets.length === 0) {
+        obj = 'No unread tweets';
       } else {
-        $.each(tweets, function (index, value) {
-          Tweet.append(value);
-        });
+        obj = tweets;
       }
+
+      Tweet.append(obj);
     });
   };
 
