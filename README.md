@@ -14,9 +14,6 @@ Twitter Searchの検索結果を表示するChrome Extensionです。
 --------------
 
 * ソースコードをダウンロードします
-
-  $ git clone git@github.com:bojovs/twis-reader.git
-
 * Chromeの拡張機能のリストが表示されたページを開きます
 * `Developer mode` と書かれた部分をクリックします
 * `パッケージ化されていない拡張機能を読み込む` というボタンが表示されるので、それをクリックします
