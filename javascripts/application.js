@@ -168,7 +168,7 @@
   };
   
   // save
-  $('form').delegate('button', 'click', function (e) {
+  $('form').on('click', 'button', function (e) {
     e.preventDefault();
 
     var keywordElm = $('#keyword')
@@ -182,7 +182,7 @@
   });
 
   // delete
-  $('ul#keywords').delegate('span.delete', 'click', function (e) {
+  $('ul#keywords').on('click', 'span.delete', function (e) {
     var currentElm = $(e.currentTarget)
       , keywordStr = currentElm.attr('data-keyword');
     
